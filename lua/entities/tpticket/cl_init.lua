@@ -36,17 +36,6 @@ function ToggleTPMenu()
 		local scroll = vgui.Create("DScrollPanel", TPMenu)
 		scroll:SetSize(TPMenu:GetWide(), TPMenu:GetTall() * .90)
 		scroll:SetPos(0, TPMenu:GetTall() * .06)
-		--for k, v in ipairs(Destinations) do
-			--local locationPanel = vgui.Create("DPanel", TPMenu)
-			--locationPanel:SetPos(0, ypos)
-			--locationPanel:SetSize(TPMenu:GetWide(), TPMenu:GetTall() * .07)
-			--locationPanel.Paint = function(self,w,h)
-				--surface.SetDrawColor(0,0,0,200)
-				--surface.DrawRect(0,0,w,h)
-				--draw.SimpleText(v.name, "MenuFont", w / 2, h/2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-			--end
-			--ypos = ypos + locationPanel:GetTall() * 1.1
-		--end
 		for k,v in ipairs(Destinations) do
 			local locationButton = vgui.Create("DButton", scroll)
 			locationButton:SetPos(TPMenu:GetWide() / 7.5, ypos)
@@ -62,15 +51,12 @@ function ToggleTPMenu()
 				TPMenu:Remove()
 				net.Start("TPInfo")
 				net.WriteEntity(LocalPlayer())
-				net.WriteVector(v.pos)
-				net.WriteAngle(v.angle)
+				net.WriteTable(v)
 				net.SendToServer()
 			end
 		end
 end
 
 net.Receive("useMenu", function()
-
 	ToggleTPMenu()
-
 end)
