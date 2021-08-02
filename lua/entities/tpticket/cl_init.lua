@@ -3,9 +3,8 @@ include("shared.lua")
 function ENT:Draw()
 
 	self:DrawModel()
-
+	
 end
-
 surface.CreateFont( "MenuFont", {
 	font = "Agency FB",
 	size = 30,
@@ -23,11 +22,15 @@ function ToggleTPMenu()
 		TPMenu:Center()
 		TPMenu:MakePopup()
 		TPMenu:ShowCloseButton(true)
-		TPMenu:SetDraggable(true)
+		TPMenu:SetDraggable(false)
 		TPMenu.Paint = function(self,w,h)
 			surface.SetDrawColor(82,182,154, 220)
 			surface.DrawRect(0,0,w,h)
 			draw.SimpleText("Teleport Ticket", "MenuFont", w / 2, h * 0.025, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+		end
+		function TPMenu:OnClose()
+			net.Start("NPlayerUsing")
+			net.SendToServer()
 		end
 		local ypos = 0
 		local scroll = vgui.Create("DScrollPanel", TPMenu)
@@ -65,7 +68,6 @@ function ToggleTPMenu()
 			end
 		end
 end
-
 
 net.Receive("useMenu", function()
 
