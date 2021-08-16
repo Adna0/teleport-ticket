@@ -10,7 +10,7 @@ function ENT:Initialize()
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
-
+	self:SetUseType( SIMPLE_USE )
 	local phys = self:GetPhysicsObject()
 
 	if phys:IsValid() then
@@ -28,7 +28,7 @@ function ENT:Initialize()
 
 	net.Receive("TPInfo", function()
 		local ply = net.ReadEntity()
-		local LocData = net.ReadTable()
+		local LocData = Destinations.config[net.ReadInt(32)]
 		ply:Freeze(true)
 		ply:ScreenFade(SCREENFADE.OUT, color_black, 2, 1)
 		timer.Simple(2, function()
